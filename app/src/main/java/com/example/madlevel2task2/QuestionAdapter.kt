@@ -8,28 +8,37 @@ import com.example.madlevel2task2.databinding.ItemQuestionBinding
 
 public class QuestionAdapter(private val questions: List<Question>) : RecyclerView.Adapter<QuestionAdapter.ViewHolder>(){
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        val binding = ItemQuestionBinding.bind(itemView)
+
+        fun databind(question: Question) {
+            binding.tvQuestion.text = question.questionText
+        }
+    }
+
+    /**
+     * Creates and returns a ViewHolder object, inflating a standard layout called simple_list_item_1.
+     */
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_question, parent, false)
         )
     }
 
-        override fun getItemCount(): Int {
+    /**
+     * Returns the size of the list
+     */
+    override fun getItemCount(): Int {
         return questions.size
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-
-        val binding = ItemQuestionBinding.bind(itemView)
-
-
-        fun bind(question: Question) {
-            binding.tvQuestion.text = question.question
-        }
-    }
-
+    /**
+     * Called by RecyclerView to display the data at the specified position.
+     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(questions[position])
+        holder.databind(questions[position])
     }
+
+
 }
